@@ -10,7 +10,6 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.io.File;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
