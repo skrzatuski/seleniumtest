@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.io.File;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -26,23 +27,26 @@ public class TestSelenium {
         driver = new EdgeDriver();
         driver.manage().window().maximize();
         driver.navigate().to("https://programautomatycy.pl/test-page/");
+        acceptCookies();
     }
     @After
-    public void takeAScreenshot() throws InterruptedException, IOException {
+    public void takeAScreenshot() throws IOException {
         String dateTime = getDate();
-        Thread.sleep(3000);
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(scrFile, new File("C:\\Users\\Artur Pietraszewski\\Desktop\\" + dateTime + "-" + testName + ".jpg"));
+        FileUtils.copyFile(scrFile, new File("C:\\Users\\Artur Pietraszewski\\Desktop\\seleniumtest" + "\\screenshots\\" + dateTime + "-" + testName + ".jpg"));
         driver.quit();
     }
-    @Test
-    public void fullFT2Test(){
-        /* Test name */
-        getTestName();
+    public void acceptCookies() {
         /* Cookie accept */
         WebElement acceptCookies = driver.findElement(By.xpath("//*[@id=\"cn-accept-cookie\"]"));
         acceptCookies.click();
-        /* Delayed button, check if displayed, when displayed click it */
+    }
+    @Test
+    public void delayedButtonTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
+        /* Check if delayed button is displayed, when displayed click it */
         WebElement delayedButton = driver.findElement(By.id("delay-button"));
         Assert.assertFalse(delayedButton.isDisplayed());
         /* Wait command */
@@ -50,20 +54,44 @@ public class TestSelenium {
         wait.until(ExpectedConditions.visibilityOf(delayedButton));
         Assert.assertTrue(delayedButton.isDisplayed());
         delayedButton.click();
+    }
+    @Test
+    public void bookTitleTest(){
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Book title fill with text */
         WebElement bookTitle = driver.findElement(By.id("book-text"));
         Assert.assertTrue(bookTitle.isEnabled());
         bookTitle.sendKeys("Zaczarowana zagroda");
+    }
+    @Test
+    public void movieTitleTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Movie title fill with text */
         WebElement movieTitle = driver.findElement(By.id("movie-text"));
         Assert.assertTrue(movieTitle.isEnabled());
         movieTitle.sendKeys("Piraci z karaibow");
+    }
+    @Test
+    public void chooseNumberTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Check if all of number are enable to select */
         List<WebElement> listOfNumbers = driver.findElements(By.xpath("//*[@id=\"number-radio\"]//input"));
         for(WebElement number:listOfNumbers){
             number.click();
             Assert.assertTrue(number.isSelected());
         }
+    }
+    @Test
+    public void animalSelectTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Check if animal can be selected multiple and check all animals posibility to select */
         Select chooseAnimal = new Select(driver.findElement(By.id("animal-select")));
         Assert.assertFalse(chooseAnimal.isMultiple());
@@ -75,6 +103,12 @@ public class TestSelenium {
         Assert.assertEquals("Chomik", chooseAnimal.getFirstSelectedOption().getText());
         chooseAnimal.selectByVisibleText("Królik");
         Assert.assertEquals("Królik", chooseAnimal.getFirstSelectedOption().getText());
+    }
+    @Test
+    public void colorSelectTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Check if color can be selected multiple and check colors posibility to select */
         Select chooseColor = new Select(driver.findElement(By.id("colour-select-multiple")));
         Assert.assertTrue(chooseColor.isMultiple());
@@ -82,22 +116,40 @@ public class TestSelenium {
         chooseColor.selectByVisibleText("Zielony");
         chooseColor.selectByVisibleText("Żółty");
         List<WebElement> listOfColours = chooseColor.getAllSelectedOptions();
-        for(WebElement color:listOfColours){
+        for (WebElement color : listOfColours) {
             Assert.assertTrue(color.isSelected());
         }
         chooseColor.deselectAll();
-        for(WebElement color:listOfColours){
+        for (WebElement color : listOfColours) {
             Assert.assertFalse(color.isSelected());
         }
+    }
+    @Test
+    public void someTextTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Check if its enable to write text */
         WebElement someText = driver.findElement(By.id("text-text"));
         Assert.assertTrue(someText.isEnabled());
         someText.sendKeys("Blabliblubla");
         System.out.println(someText.getText());
+    }
+    @Test
+    public void clickableLinkTest() {
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Check if the link is clickable */
         WebElement clickLink = driver.findElement(By.id("courses-url"));
         clickLink.click();
         driver.navigate().back();
+    }
+    @Test
+    public void checkboxesTest(){
+        testName = new Throwable(){}
+                .getStackTrace()[0]
+                .getMethodName();
         /* Check if checkbox is enabled and can be selected */
         WebElement checkbox1 = driver.findElement(By.xpath("//*[@id=\"good-checkbox\"]/span/input"));
         Assert.assertTrue(checkbox1.isEnabled());
@@ -121,10 +173,5 @@ public class TestSelenium {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
         Date date = new Date();
         return dateFormat.format(date);
-    }
-    public void getTestName(){
-        testName = new Throwable(){}
-                .getStackTrace()[0]
-                .getMethodName();
     }
 }
