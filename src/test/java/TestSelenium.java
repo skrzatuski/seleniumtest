@@ -36,11 +36,6 @@ public class TestSelenium {
         FileUtils.copyFile(scrFile, new File("C:\\Users\\Artur Pietraszewski\\Desktop\\seleniumtest" + "\\screenshots\\" + dateTime + "-" + testName + ".jpg"));
         driver.quit();
     }
-    public void acceptCookies() {
-        /* Cookie accept */
-        WebElement acceptCookies = driver.findElement(By.xpath("//*[@id=\"cn-accept-cookie\"]"));
-        acceptCookies.click();
-    }
     @Test
     public void delayedButtonTest() {
         testName = new Throwable(){}
@@ -173,5 +168,10 @@ public class TestSelenium {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+    public void acceptCookies() {
+        /* Cookie accept */
+        WebElement acceptCookies = driver.findElement(By.xpath("//*[@id=\"cn-accept-cookie\"]"));
+        acceptCookies.click();
     }
 }
